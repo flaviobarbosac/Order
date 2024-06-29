@@ -11,7 +11,7 @@ namespace Order.Services
         public ClienteService(IMongoClient client)
         {
             var database = client.GetDatabase("TechsysLogDB");
-            _clients = database.GetCollection<Cliente>("Clients");
+            _clients = database.GetCollection<Cliente>("Clientes");
         }
 
         public async Task<Cliente> CreateCliente(Cliente client)

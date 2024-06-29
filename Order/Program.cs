@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 using Order.Dominio;
 using Order.Services;
@@ -35,18 +36,53 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configurar o Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ordens API", Version = "v1" });
+
+    // Adicionar a configuração de segurança para JWT
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
+builder.Services.AddHttpClient<ViaCepService>();
 builder.Services.AddSignalR();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSingleton<IMongoClient, MongoClient>(sp =>
 {
     var settings = builder.Configuration.GetSection("MongoDB").Get<MongoDBSettings>();
     return new MongoClient(settings.ConnectionString);
 });
+
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IOrdemService, OrdemService>();
-builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IDeliveryService, DeliveryService>();
+builder.Services.AddScoped<IItemOrdemService, ItemOrdemService>();
+builder.Services.AddScoped<IEntregaService, EntregaService>();
 
 
 var app = builder.Build();

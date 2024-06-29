@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Order.Services.Interfaces;
+using MongoDB.Bson;
 
 namespace Order.Services
 {
@@ -37,6 +38,22 @@ namespace Order.Services
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             await _users.InsertOneAsync(user);
             return user;
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _users.Find(c => true).ToListAsync();
+        }
+
+        public async Task<User> GetUserById(ObjectId id)
+        {
+            return await _users.Find(c => c.Id == id).FirstOrDefaultAsync();
+        }    
+
+        public async Task<bool> DeleteUser(ObjectId id)
+        {
+            var result = await _users.DeleteOneAsync(c => c.Id == id);
+            return result.IsAcknowledged && result.DeletedCount > 0;
         }
 
         public async Task<string> Authenticate(LoginDto loginDto)

@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using Order.Dominio;
 using Order.Services.Interfaces;
 
 namespace Order.Controllers
 {
+    
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]    
     public class ProdutosController : ControllerBase
     {
         private readonly IProdutoService _produtoService;
@@ -33,9 +35,9 @@ namespace Order.Controllers
             }
             return Ok(produto);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllClients()
+        
+        [HttpGet]        
+        public async Task<IActionResult> GetAllProdutos()
         {
             var produtos = await _produtoService.GetAllProdutos();
             return Ok(produtos);

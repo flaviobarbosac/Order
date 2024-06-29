@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using Newtonsoft.Json;
 using Order.Dominio;
 using Order.Services;
 
 namespace Order.Controllers
 {
+    
     [ApiController]
     [Route("api/[controller]")]
     public class EntregaController : ControllerBase
@@ -31,7 +34,11 @@ namespace Order.Controllers
             {
                 return NotFound();
             }
-            return Ok(entrega);
+
+            var entregaDto = _entregaService.ConverteParaDto(entrega);
+            var itensDto = _entregaService.ConverteEntrega(entrega);
+
+            return Ok(new { Entrega = entregaDto, Itens = itensDto });
         }
 
         [HttpGet]

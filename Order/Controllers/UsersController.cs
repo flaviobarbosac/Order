@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using Order.Dominio.Dto;
 using Order.Services.Interfaces;
 
@@ -15,6 +17,38 @@ namespace Order.Controllers
             _userService = userService;
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(ObjectId id)
+        {
+            var user = await _userService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }        
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var user = await _userService.GetAllUsers();
+            return Ok(user);
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(ObjectId id)
+        {
+            var result = await _userService.DeleteUser(id);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+                
         [HttpPost]
         public async Task<IActionResult> Register(UserDto userDto)
         {
@@ -25,7 +59,7 @@ namespace Order.Controllers
             }
             return Ok(user);
         }
-
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {

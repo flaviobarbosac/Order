@@ -9,7 +9,8 @@ namespace Order.Dominio
         [BsonRepresentation(BsonType.ObjectId)]        
         public ObjectId Id { get; set; }
         public required string NumeroOrdem { get; set; }
-        public DateTime DataHoraEntrega { get; set; }
+        public required string DataHoraEntrega { get; set; }
         public required User User { get; set; }
+        public required Ordem Ordem { get; set; }
     }
 }
