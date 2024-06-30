@@ -17,6 +17,7 @@ namespace Order.Services
         public async Task<ItemOrdem> CreateItemOrdem(ItemOrdem itemOrdem)
         {
             await _itemOrdem.InsertOneAsync(itemOrdem);
+            await UpdateItemOrdemValorTotal(itemOrdem.Id);
             return itemOrdem;
         }
 
@@ -38,9 +39,19 @@ namespace Order.Services
 
         public async Task<bool> UpdateItemOrdem(ItemOrdem itemOrdem)
         {
-            itemOrdem.ValorTotal = itemOrdem.Quantidade * itemOrdem.PrecoVenda;
             var result = await _itemOrdem.ReplaceOneAsync(c => c.Id == itemOrdem.Id, itemOrdem);
+            await UpdateItemOrdemValorTotal(itemOrdem.Id);
             return result.IsAcknowledged && result.ModifiedCount > 0;
+        }
+
+        public async Task UpdateItemOrdemValorTotal(ObjectId itemOrdemId)
+        {
+            var itemOrdem = await _itemOrdem.Find(c => c.Id == itemOrdemId).FirstOrDefaultAsync();
+            if (itemOrdem != null)
+            {
+                itemOrdem.ValorTotal = itemOrdem.Quantidade * itemOrdem.PrecoVenda;
+                await _itemOrdem.ReplaceOneAsync(c => c.Id == itemOrdemId, itemOrdem);
+            }
         }
     }
 }

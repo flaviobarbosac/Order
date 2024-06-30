@@ -12,6 +12,8 @@ using MongoDB.Bson;
 
 namespace Order.Services
 {
+
+    //Implementei uma criptografia para a senha do usuario pra aumentar a segurança do sistema
     public class UserService : IUserService
     {
         private readonly IMongoCollection<User> _users;

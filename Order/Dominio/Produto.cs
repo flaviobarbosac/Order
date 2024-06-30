@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Order.Dominio
 {
+    //Criei um cadastro de produto para mantermos a coerencia do sistema
     public class Produto
     {
         [BsonId]

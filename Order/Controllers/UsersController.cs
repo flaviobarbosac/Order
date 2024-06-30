@@ -17,7 +17,7 @@ namespace Order.Controllers
             _userService = userService;
         }
 
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserById(ObjectId id)
         {
@@ -27,8 +27,9 @@ namespace Order.Controllers
                 return NotFound();
             }
             return Ok(user);
-        }        
+        }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -36,7 +37,7 @@ namespace Order.Controllers
             return Ok(user);
         }
 
-
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(ObjectId id)
         {
@@ -48,7 +49,8 @@ namespace Order.Controllers
 
             return NoContent();
         }
-                
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Register(UserDto userDto)
         {
@@ -60,6 +62,7 @@ namespace Order.Controllers
             return Ok(user);
         }
         
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {

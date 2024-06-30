@@ -84,7 +84,6 @@ builder.Services.AddScoped<IOrdemService, OrdemService>();
 builder.Services.AddScoped<IItemOrdemService, ItemOrdemService>();
 builder.Services.AddScoped<IEntregaService, EntregaService>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

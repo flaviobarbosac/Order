@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Order.Services;
 using System.Threading.Tasks;
 
 namespace Order.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class EnderecoController : ControllerBase

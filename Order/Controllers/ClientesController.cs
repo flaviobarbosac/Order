@@ -6,6 +6,7 @@ using Order.Services;
 
 namespace Order.Controllers
 {    
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ClientesController : ControllerBase

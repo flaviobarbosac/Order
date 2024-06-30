@@ -3,6 +3,10 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Order.Dominio
 {
+
+    /*
+     Removi os dados do endereço da Ordem para uma classe específica para facilitar a busca pelo CEP.       
+     */
     public class Ordem
     {
         [BsonId]

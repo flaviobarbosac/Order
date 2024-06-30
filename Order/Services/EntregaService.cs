@@ -80,15 +80,15 @@ namespace Order.Services
                 DataHoraEntrega = entrega.DataHoraEntrega,
                 Entregador = entrega.User.Nome,
                 ValorTotalOrdem = entrega.Ordem.ValorTotalOrdem.ToString(),
-                NomeCliente = entrega.Ordem.Cliente.Nome,                
+                NomeCliente = entrega.Ordem.Cliente.Nome,
                 Telefone = entrega.Ordem.Cliente.Telefone,
                 CEP = entrega.Ordem.Cliente.CEP,
-                Rua = entrega.Ordem.Cliente.Rua,
-                Numero = entrega.Ordem.Cliente.Numero,
-                Bairro = entrega.Ordem.Cliente.Bairro,
-                Cidade = entrega.Ordem.Cliente.Cidade,
-                Estado = entrega.Ordem.Cliente.Estado
-            };
+                Rua = entrega.Ordem.Cliente.Endereco.Logradouro,
+                Numero = entrega.Ordem.Cliente.Endereco.Unidade,
+                Bairro = entrega.Ordem.Cliente.Endereco.Bairro,
+                Cidade = string.Empty,
+                Estado = entrega.Ordem.Cliente.Endereco.Uf
+            }; 
         }
     }
 }

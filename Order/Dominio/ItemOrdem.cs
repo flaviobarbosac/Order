@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Order.Dominio
 {
+    //Criei os itens da ordem para controlar os itens comprados pelo cliente e mais detalhes como qtd e valores (unitario e total).
     public class ItemOrdem
     {
         [BsonId]
