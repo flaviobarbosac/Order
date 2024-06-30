@@ -8,6 +8,7 @@ namespace Order.Services
     public class OrdemService : IOrdemService
     {
         private readonly IMongoCollection<Ordem> _Ordem;
+        private readonly IMongoCollection<ItemOrdem> _itemOrdem;
 
         public OrdemService(IMongoClient client)
         {
@@ -51,7 +52,7 @@ namespace Order.Services
             if (ordem != null)
             {
                 var itensOrdem = await _itemOrdem.Find(i => i.Ordem.Id == ordemId).ToListAsync();
-                ordem.ValorTotal = itensOrdem.Sum(i => i.ValorTotal);
+                ordem.ValorTotalOrdem = itensOrdem.Sum(i => i.ValorTotal);
                 await _Ordem.ReplaceOneAsync(o => o.Id == ordemId, ordem);
             }
         }
